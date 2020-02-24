@@ -1,0 +1,108 @@
+table td, th {
+    padding: 5px;
+    white-space: pre-wrap;
+ }
+.navbar{
+    background-color: #363636;
+}
+.navbar-brand{
+    font-size: 25px;
+}
+.navbar-brand:hover{
+    color: rgba(255, 255, 255, 0.6);
+}
+.nav-item a{
+    font-size: 20px;
+    font-weight: bold;
+}
+.modal-header{
+    background-color: #363636;
+}
+.modal-header h1{
+    color: white;
+}
+.modal-body{
+    background-color: #3490dc;
+}
+.modal-footer{
+    display: flex;
+    justify-content: space-between;
+    background-color: #363636;
+}
+a{
+    color:white;
+}
+.list-menu{
+    width: 20%;
+    position: relative;
+    left: 0;
+}
+.list-group-item{
+    background-color: #363636;
+}
+.dashboard{
+    display: flex;
+}
+.dashboard h3{
+    margin-left: 10px;
+    color:white;
+    margin: auto;
+}
+.item-painel-norm{
+    display:flex;
+    align-items: center;
+}
+.item-painel-norm ion-icon{
+    margin-right: 5px;
+}
+.item-painel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+.filtros{
+    display: flex;
+    justify-content: space-between;
+}
+.total_vendas{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.circle{
+    border-color:black;
+    border-width: 8px;
+    border-style:solid;
+    background-color: #3490dc;
+    flex:1;
+    /* border-radius: 100px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.circle h2{
+    color: white;
+    font-weight: bold;
+}
+.circle h3{
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+}
+.pesquisa_venda{
+    align-self: flex-end;
+}
+.buttons_v{
+    display: flex;
+    justify-content: space-around;
+}
+@media only screen and (max-width:1025px){
+    .list-menu{
+        width: 40%;
+    }
+    .menu_lateral{
+        display: none;
+    }
+}
