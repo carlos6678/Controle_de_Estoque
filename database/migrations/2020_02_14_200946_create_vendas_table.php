@@ -18,7 +18,8 @@ class CreateVendasTable extends Migration
             $table->integer('clientes_id');
             $table->integer('produtos_id');
             $table->float('valor_venda');
-            $table->dateTime('data_venda');
+            $table->integer('qtproduto');
+            $table->date('data_venda');
 
         }); 
     }

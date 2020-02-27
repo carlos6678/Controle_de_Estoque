@@ -11,7 +11,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="js/editar.js"></script>
-    <script src="js/request.js"></script>
+    <script src="js/produtos.js"></script>
+    <script src="js/vendas.js"></script>
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <!-- Fonts -->

@@ -7,6 +7,7 @@ use App\Produtos;
 use App\Compras;
 use App\Vendas;
 use App\Fabricantes;
+use App\Clientes;
 class AjaxController extends Controller
 {   
     public function infoProduto($id){
@@ -136,5 +137,43 @@ class AjaxController extends Controller
                 Vendas::where('produtos_id',$req->input('id'));
             }
         }
+    }
+    public function addVendas(Request $req){
+        $array=array(
+            'status'=>0,
+            'error'=>''
+        );
+        if($req->has(['cliente','produto','qtproduto'])){
+            if(Clientes::find($req->cliente)){
+                if(Produtos::find($req->produto)){
+                    $produto_qt=Produtos::find($req->produto);
+                    if($produto_qt->quantidade>=intval($req->input('qtproduto'))){
+                        $venda=new Vendas;
+                        $venda->clientes_id=intval($req->input('cliente'));
+                        $venda->produtos_id=intval($req->input('produto'));
+                        $venda->valor_venda=$produto_qt->valor_venda*intval($req->input('qtproduto'));
+                        $venda->qtproduto=intval($req->input('qtproduto'));
+                        $venda->data_venda=date('Y-m-d');
+                        $venda->save();
+
+                        $produto_qt->quantidade=$produto_qt->quantidade-intval($req->input('qtproduto'));
+                        $produto_qt->save();
+                    }else{
+                        $array['status']=1;
+                        $array['error']='Quantidade de compra maior que a quantidade em estoque';
+                    }
+                }else{
+                    $array['status']=1;
+                    $array['error']='Produto não existe';
+                }
+            }else{
+                $array['status']=1;
+                $array['error']='Cliente não existe';
+            }
+        }else{
+            $array['status']=1;
+            $array['error']='Não foram preenchidos todos os dados';
+        }
+        return $array;
     }
 }

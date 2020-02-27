@@ -79,16 +79,46 @@
                     <h3>R$ {{$total_vendas}}</h3>
                 </div>
             </div>
-            <form action="" method="post" class="form-inline pesquisa_venda mt-3 mb-3">
-                <input type="text" placeholder="Pesquisar Venda" class="form-control-lg">
-                <input type="submit" value="Pesquisar" class="btn btn-lg btn-dark">
-            </form>
+            <div class="row justify-content-between">
+                <form action="" method="post" class="form-inline pesquisa_venda mt-3 mb-3">
+                    <input type="text" placeholder="Pesquisar Venda" class="form-control-lg">
+                    <input type="submit" value="Pesquisar" class="btn btn-lg btn-dark">
+                </form>
+                <button class="btn btn-primary" style="font-size:25px" data-toggle="modal" data-target="#addvenda">Adicionar Venda</button>
+            </div>
+           
+
+            <div class="modal fade" id="addvenda" tabindex="-1" role="dialog" aria-labelledby="addvendaLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header"> 
+                            <h1 class="modal-title" id="addvendaLabel">Venda</h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-group align-itens-between" id="form_addvenda">
+                                <input type="text" name="cliente" placeholder="cod.cliente" class="form-control-lg w-100 mb-5">
+                                <input type="text" name="produto" placeholder="cod.produto" class="form-control-lg w-100 mb-5">
+                                <input type="text" name="qtproduto" placeholder="qt.do produto" class="form-control-lg w-100 mb-5">
+                                <input type="submit" style="display:none" id="click_addvenda">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="addVenda()">Salvar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <th>Cep</th>
                     <th>Razao</th>
                     <th>Produto</th>
                     <th>Compra</th>
+                    <th>Quantidade</th>
                     <th>Data</th>
                 <tbody>
                     @foreach($vendas as $venda)
@@ -104,10 +134,13 @@
                      @endforeach
                 </tbody>
             </table>
-            <div class="buttons_v">
-                <button class="btn btn-outline-primary btn-lg" id="ver_mais">Ver mais</button>
-                <button class="btn btn-outline-primary btn-lg" id="ver_menos">Ver menos</button>
-            </div>
+
+            @if(!empty($vendas))
+                <div class="buttons_v">
+                    <button class="btn btn-outline-primary btn-lg" id="ver_mais">Ver mais</button>
+                    <button class="btn btn-outline-primary btn-lg" id="ver_menos">Ver menos</button>
+                </div>
+            @endif
         </div>
     </div>
 </div>

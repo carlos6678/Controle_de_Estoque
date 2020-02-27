@@ -134,7 +134,7 @@
                                 {{ csrf_field() }}
                                 <input type="text" name="nome" placeholder="Nome" class="form-control-lg w-100 mb-2">
                             
-                                <input  type="text" name="fabricante" placeholder="Fabricante" class="form-control-lg w-100 mb-2">
+                                <input  type="text" name="fabricante" placeholder="Fabricante EX:Nescau" class="form-control-lg w-100 mb-2">
                             
                                 <input type="text" name="representante" placeholder="Representante" class="form-control-lg w-100 mb-2">
                             

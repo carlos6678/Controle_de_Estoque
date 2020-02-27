@@ -51,11 +51,11 @@ class HomeController extends Controller
 
         $array=Vendas::all()->sortByDesc('data_venda');
         foreach($array as $key=>$value){
-
+ 
             $Produtos=Produtos::find($value['produtos_id']);
             $Clientes=Clientes::find($value['clientes_id']);
 
-            $venda=array($Clientes->cep,$Clientes->razao_social,$Produtos->nome,$value['valor_venda'],$value['data_venda']);
+            $venda=array($Clientes->cep,$Clientes->razao_social,$Produtos->nome,$value['valor_venda'],$value['qtproduto'],$value['data_venda']);
 
             $dados['vendas'][$key]=$venda;
         }

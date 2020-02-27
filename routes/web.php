@@ -25,3 +25,4 @@ Route::get('/infoProduto/{id}','AjaxController@infoProduto');
 Route::post('/addProduto','AjaxController@addProduto');
 Route::post('/editProduto/{id}','AjaxController@editarProduto');
 Route::delete('/excluirProduto','AjaxController@excluirProduto');
+Route::post('/addVendas','AjaxController@addVendas');
