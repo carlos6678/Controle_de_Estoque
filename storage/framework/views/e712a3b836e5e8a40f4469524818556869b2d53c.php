@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2" style="background-color: #363636;">
@@ -48,8 +46,29 @@
                         Adcionar Fabricante
                     </a>
                 </div>
+
+                <button class="list-group-item mt-1 item-painel" data-toggle="collapse" href="#relatorios" role="button" aria-expanded="false" aria-controls="relatorios">
+                    Relatorios
+                    <ion-icon name="arrow-down-outline" style="font-size:20px"></ion-icon>
+                </button>
+                <div class="collapse" id="relatorios" href="">
+                    <a class="list-group-item mt-1 item-painel-norm" href="relatorio_v">
+                        <ion-icon name="stop-circle-outline" style="font-size:20px"></ion-icon>
+                        Relatorio de vendas
+                    </a>
+                    <a class="list-group-item mt-1 item-painel-norm" href="relatorio_m">
+                        <ion-icon name="stop-circle-outline" style="font-size:20px"></ion-icon>
+                        Relatorio Mensal
+                    </a>
+                    <a class="list-group-item mt-1 item-painel-norm" href="relatorio_d">
+                        <ion-icon name="stop-circle-outline" style="font-size:20px"></ion-icon>
+                        Relatorio diario
+                    </a>
+                </div>
             </ul>
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\Estoque\resources\views/home.blade.php ENDPATH**/ ?>

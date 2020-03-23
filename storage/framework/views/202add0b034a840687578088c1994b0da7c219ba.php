@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2" style="background-color: #363636;">
@@ -55,7 +53,7 @@
         <div class="col-10">
 
             <div class="filtros mb-3">
-                <div>{{$compras->links()}}</div>
+                <div><?php echo e($compras->links()); ?></div>
                 <h1>Compras feitas</h1>
                 <form action="" class="form-inline">
                     <input type="text" class="form-control form-control-lg" placeholder="Pesquisar compras">
@@ -73,15 +71,15 @@
                 </thead>
 
                 <tbody>
-                    @foreach($compras as $compra)
+                    <?php $__currentLoopData = $compras; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compra): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>{{$compra->comprador}}</td>
-                            <td>{{$compra->produto_id}}</td>
-                            <td>{{$compra->quantidade}}</td>
-                            <td>{{$compra->valor}}</td>
-                            <td>{{$compra->data_compra}}</td>
+                            <td><?php echo e($compra->comprador); ?></td>
+                            <td><?php echo e($compra->produto_id); ?></td>
+                            <td><?php echo e($compra->quantidade); ?></td>
+                            <td><?php echo e($compra->valor); ?></td>
+                            <td><?php echo e($compra->data_compra); ?></td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
             <button class="btn btn-success" type="button" data-target="#addCompra" data-toggle="modal">Nova compra</button>
@@ -119,4 +117,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\Estoque\resources\views/compras.blade.php ENDPATH**/ ?>

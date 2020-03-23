@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2" style="background-color: #363636;">
@@ -54,7 +52,7 @@
 
         <div class="col-10">
             <div class="filtros mb-3">
-                <div>{{$clientes->links()}}</div>
+                <div><?php echo e($clientes->links()); ?></div>
                 <h1>Clientes cadastrados</h1>
                 <form action="" method="post" class="form-inline">
                     <input type="text" placeholder="Pesquisar clientes" class="form-control-lg">
@@ -76,24 +74,24 @@
                     <th>Ações</th>
                 </thead>
                 <tbody>
-                    @foreach($clientes as $cliente)
+                    <?php $__currentLoopData = $clientes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cliente): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>{{$cliente->id}}</td>
-                            <td>{{$cliente->cep}}</td>
-                            <td>{{$cliente->razao_social}}</td>
-                            <td>{{$cliente->cnpj}}</td>
-                            <td>{{$cliente->estado}}</td>
-                            <td>{{$cliente->municipio}}</td>
-                            <td>{{$cliente->telefone}}</td>
-                            <td>{{$cliente->bairro}}</td>
-                            <td>{{$cliente->rua}}</td>
-                            <td>{{$cliente->numero}}</td>
+                            <td><?php echo e($cliente->id); ?></td>
+                            <td><?php echo e($cliente->cep); ?></td>
+                            <td><?php echo e($cliente->razao_social); ?></td>
+                            <td><?php echo e($cliente->cnpj); ?></td>
+                            <td><?php echo e($cliente->estado); ?></td>
+                            <td><?php echo e($cliente->municipio); ?></td>
+                            <td><?php echo e($cliente->telefone); ?></td>
+                            <td><?php echo e($cliente->bairro); ?></td>
+                            <td><?php echo e($cliente->rua); ?></td>
+                            <td><?php echo e($cliente->numero); ?></td>
                             <td>
-                                <button class="btn btn-darkleve" data-id="{{$cliente->id}}" onclick="editarCliente(this)">Editar</button>
-                                <button class="btn btn-danger" data-id="{{$cliente->id}}" onclick="excluirCliente(this)">Excluir</button>
+                                <button class="btn btn-darkleve" data-id="<?php echo e($cliente->id); ?>" onclick="editarCliente(this)">Editar</button>
+                                <button class="btn btn-danger" data-id="<?php echo e($cliente->id); ?>" onclick="excluirCliente(this)">Excluir</button>
                             </td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
 
@@ -188,4 +186,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\Estoque\resources\views/clientes.blade.php ENDPATH**/ ?>

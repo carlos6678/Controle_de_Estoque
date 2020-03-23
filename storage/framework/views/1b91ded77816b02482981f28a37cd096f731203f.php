@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2" style="background-color: #363636;">
@@ -56,7 +54,8 @@
             <h1>Cadastrar Cliente</h1>
 
             <form action="addCliente" method="post" class="form-row">
-                {{ csrf_field() }}
+                <?php echo e(csrf_field()); ?>
+
                 <div class="col-6 mb-3">
                     <input type="text" placeholder="Cep" class="form-control" name="cep" required>
                 </div>
@@ -100,4 +99,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\Estoque\resources\views/addCliente.blade.php ENDPATH**/ ?>

@@ -1,7 +1,12 @@
 table td, th {
     padding: 5px;
     white-space: pre-wrap;
- }
+}
+label{
+    color: white;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 .navbar{
     background-color: #363636;
 }
@@ -98,11 +103,27 @@ a{
     display: flex;
     justify-content: space-around;
 }
+.card-header{
+    background-color: #212529;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 10px;
+    letter-spacing: 3px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-bottom: 2px solid black;
+}
+.card-body{
+    background-color: #212529;
+}
+.col-form-label{
+    font-size: 20px;
+}
 @media only screen and (max-width:1025px){
     .list-menu{
         width: 40%;
     }
     .menu_lateral{
-        display: none;
+        display: none; 
     }
 }

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 menu_lateral" style="background-color: #363636;">
@@ -52,7 +50,7 @@
         </div>
         <div class="col-10 corpo">
             <div class="filtros mb-3">
-                <div>{{$produtos[0]->links()}}</div>
+                <div><?php echo e($produtos[0]->links()); ?></div>
                 <h1>Produtos Cadastrados</h1>
                 <form action="" method="post"class="form-inline">
                     <input type="text" class="form-control form-control-lg" placeholder="Pesquisar Produto">
@@ -75,25 +73,25 @@
                 </thead>
 
                 <tbody>
-                @foreach($produtos as $p)
-                    @foreach($p as $key=>$p1)
+                <?php $__currentLoopData = $produtos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = $p; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$p1): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>{{$p1->id}}</td>
-                            <td>{{$p1->nome}}</td>
-                            <td>{{$p1->fabricantes_id}}</td>
-                            <td>{{$p1->representante}}</td>
-                            <td>{{$p1->quantidade}}</td>
-                            <td>R${{$p1->valor_venda}}</td>
-                            <td>R${{$p1->valor_compra}}</td>
-                            <td>{{$p1->data_fabricaçao}}</td>
-                            <td>{{$p1->data_vencimento}}</td>
+                            <td><?php echo e($p1->id); ?></td>
+                            <td><?php echo e($p1->nome); ?></td>
+                            <td><?php echo e($p1->fabricantes_id); ?></td>
+                            <td><?php echo e($p1->representante); ?></td>
+                            <td><?php echo e($p1->quantidade); ?></td>
+                            <td>R$<?php echo e($p1->valor_venda); ?></td>
+                            <td>R$<?php echo e($p1->valor_compra); ?></td>
+                            <td><?php echo e($p1->data_fabricaçao); ?></td>
+                            <td><?php echo e($p1->data_vencimento); ?></td>
                             <td>
-                                <button class="btn btn-darkleve" onclick="editarProduto(this)" data-id="{{$p1->id}}">Editar</button>
-                                <button class="btn btn-danger"  onclick="excluirProduto(this)" data-id="{{$p1->id}}">Excluir</button>
+                                <button class="btn btn-darkleve" onclick="editarProduto(this)" data-id="<?php echo e($p1->id); ?>">Editar</button>
+                                <button class="btn btn-danger"  onclick="excluirProduto(this)" data-id="<?php echo e($p1->id); ?>">Excluir</button>
                             </td>
                         </tr>
-                    @endforeach
-                @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
             <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addproduto">Novo Produto</button>
@@ -109,7 +107,8 @@
                         </div>
                         <div class="modal-body">
                             <form id="enviarProduto" class="form-group">
-                                {{ csrf_field() }}
+                                <?php echo e(csrf_field()); ?>
+
                                 <input type="text" name="nome" placeholder="Nome" class="form-control-lg w-100 mb-2">
                             
                                 <input  type="text" name="fabricante" placeholder="Fabricante EX:Nescau" class="form-control-lg w-100 mb-2">
@@ -146,7 +145,8 @@
                         </div>
                         <div class="modal-body">
                             <form id="editarProduto" class="form-group">
-                                {{ csrf_field() }}
+                                <?php echo e(csrf_field()); ?>
+
                                 <input type="text" name="nome" placeholder="Nome" class="form-control-lg w-100 mb-2" >
                             
                                 <input type="text" name="fabricante" placeholder="Fabricante" class="form-control-lg w-100 mb-2">
@@ -173,7 +173,8 @@
             </div>
 
             <div class="modal fade" id="excluirProduto" data-backdrop="static" role="dialog" aria-labelledby="title2" aria-hidden="true">
-            {{ csrf_field() }}
+            <?php echo e(csrf_field()); ?>
+
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -196,4 +197,6 @@
         </div>
     </div>
 </div> 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\Estoque\resources\views/listarprodutos.blade.php ENDPATH**/ ?>

@@ -8,8 +8,14 @@ use App\Compras;
 use App\Vendas;
 use App\Fabricantes;
 use App\Clientes;
+use Illuminate\Support\Facades\Auth;
+use App\JsonOutput;
 class AjaxController extends Controller
 {   
+    private function getSaida($array){
+        JsonOutput::mostrar($array);
+        //Padrao de projeto strategy usado mais por boas praticas
+    }
     public function infoProduto($id){
         $produtos=Produtos::find($id);
         $fabricante= new Fabricantes;
@@ -20,7 +26,13 @@ class AjaxController extends Controller
             $produtos->fabricantes_id=$fabricante_nome->nome;
         }
 
-        return $produtos;
+        $this->getSaida($produtos);
+    }
+    public function infoCliente($id){
+        $this->getSaida(Clientes::find($id));
+    }
+    public function infoFabricante($id){
+        $this->getSaida(Fabricantes::find($id));
     }
     public function addProduto(Request $req){
         $array=array(
@@ -28,7 +40,7 @@ class AjaxController extends Controller
             'error'=>''
         );
         if($req->isMethod('post')){
-            if($req->has(['nome','representante','Venda','Compra','fabricacao','vencimento']) && $req->filled('fabricante')){
+            if($req->filled(['nome','representante','Venda','Compra','fabricacao','vencimento']) && $req->filled('fabricante')){
                 $fabricante=Fabricantes::select('id')->where('nome',$req->input('fabricante'))->get();
                 if(count($fabricante)>0){
 
@@ -55,7 +67,7 @@ class AjaxController extends Controller
                 }
 
             }
-            elseif($req->has(['nome','representante','Venda','Compra','fabricacao','vencimento']) && !$req->filled('fabricante')){
+            elseif($req->filled(['nome','representante','Venda','Compra','fabricacao','vencimento']) && !$req->filled('fabricante')){
                 $fabricacao=explode('/',$req->fabricacao);
                 $vencimento=explode('/',$req->vencimento);
                 $fabricacao=array_reverse($fabricacao);
@@ -81,7 +93,7 @@ class AjaxController extends Controller
             $array['status']=1;
             $array['error']="Metodo de requisição invalido";
         }
-        return $array;
+        $this->getSaida($array);
     }
     public function editarProduto($id,Request $req){
         $array=array(
@@ -89,7 +101,7 @@ class AjaxController extends Controller
             'error'=>''
         );
         if($req->isMethod('post')){
-            if($req->has(['nome','fabricante','representante','Venda','Compra','fabricacao','vencimento'])){
+            if($req->filled(['nome','fabricante','representante','Venda','Compra','fabricacao','vencimento'])){
                 if($req->fabricante=="Nenhum"){
                     $produto=Produtos::find($id);
                     $produto->nome=$req->input('nome');
@@ -127,7 +139,7 @@ class AjaxController extends Controller
             $array['status']=1;
             $array['error']='Metodo de requisição invalido';
         }
-        return $array;
+        $this->getSaida($array);
     }
     public function excluirProduto(Request $req){
         if($req->isMethod('delete')){
@@ -143,37 +155,145 @@ class AjaxController extends Controller
             'status'=>0,
             'error'=>''
         );
-        if($req->has(['cliente','produto','qtproduto'])){
-            if(Clientes::find($req->cliente)){
-                if(Produtos::find($req->produto)){
-                    $produto_qt=Produtos::find($req->produto);
-                    if($produto_qt->quantidade>=intval($req->input('qtproduto'))){
-                        $venda=new Vendas;
-                        $venda->clientes_id=intval($req->input('cliente'));
-                        $venda->produtos_id=intval($req->input('produto'));
-                        $venda->valor_venda=$produto_qt->valor_venda*intval($req->input('qtproduto'));
-                        $venda->qtproduto=intval($req->input('qtproduto'));
-                        $venda->data_venda=date('Y-m-d');
-                        $venda->save();
+        if($req->isMethod('post')){
 
-                        $produto_qt->quantidade=$produto_qt->quantidade-intval($req->input('qtproduto'));
-                        $produto_qt->save();
+            if($req->filled(['cliente','produto','qtproduto'])){
+                if(Clientes::find($req->cliente)){
+                    if(Produtos::find($req->produto)){
+                        $produto_qt=Produtos::find($req->produto);
+                        if($produto_qt->quantidade>=intval($req->input('qtproduto'))){
+                            $venda=new Vendas;
+                            $venda->clientes_id=intval($req->input('cliente'));
+                            $venda->produtos_id=intval($req->input('produto'));
+                            $venda->valor_venda=$produto_qt->valor_venda*intval($req->input('qtproduto'));
+                            $venda->qtproduto=intval($req->input('qtproduto'));
+                            $venda->data_venda=date('Y-m-d');
+                            $venda->save();
+
+                            $produto_qt->quantidade=$produto_qt->quantidade-intval($req->input('qtproduto'));
+                            $produto_qt->save();
+                        }else{
+                            $array['status']=1;
+                            $array['error']='Quantidade de compra maior que a quantidade em estoque';
+                        }
                     }else{
                         $array['status']=1;
-                        $array['error']='Quantidade de compra maior que a quantidade em estoque';
+                        $array['error']='Produto não existe';
                     }
                 }else{
                     $array['status']=1;
-                    $array['error']='Produto não existe';
+                    $array['error']='Cliente não existe';
                 }
             }else{
                 $array['status']=1;
-                $array['error']='Cliente não existe';
+                $array['error']='Não foram preenchidos todos os dados';
             }
         }else{
             $array['status']=1;
-            $array['error']='Não foram preenchidos todos os dados';
+            $array['error']='Metodo de requisição invalido';
         }
-        return $array;
+        $this->getSaida($array);
+    }
+    public function addCompras(Request $req){
+        $array=array(
+            'status'=>0,
+            'error'=>''
+        );
+
+        if($req->isMethod('post')){
+            if($req->filled(['produto','qt','valor'])){
+                $produto=Produtos::find(intval($req->input('produto')));
+                if($produto){
+                    $compra=new Compras;
+                    $compra->comprador=Auth::user()->name;
+                    $compra->produto_id=intval($req->input('produto'));
+                    $compra->quantidade=intval($req->input('qt'));
+                    $compra->valor=floatval($req->input('valor'));
+                    $compra->data_compra=date('Y-m-d');
+                    $compra->save();
+
+                    $produto->quantidade=$produto->quantidade+intval($req->input('qt'));
+                    $produto->save();
+                }else{
+                    $array['status']=1;
+                    $array['error']='Produto não cadastrado no sistema';
+                }
+            }else{
+                $array['status']=1;
+                $array['error']='Alguns dados não enviados';
+            }
+        }else{
+            $array['status']=1;
+            $array['error']='Metodo de requisição invalido';
+        }
+        $this->getSaida($array);
+    }
+    public function salvarCliente($id,Request $req){
+        $array=array(
+            'status'=>0,
+            'error'=>''
+        );
+
+        if($req->isMethod('post')){
+            if($req->filled(['cep','razao','cnpj','uf','municipio','tel','bairro','rua','numero'])){
+                $cliente=Clientes::find($id);
+                $cliente->cep=$req->input('cep');
+                $cliente->razao_social=$req->input('razao');
+                $cliente->cnpj=$req->input('cnpj');
+                $cliente->estado=$req->input('uf');
+                $cliente->municipio=$req->input('municipio');
+                $cliente->telefone=$req->input('tel');
+                $cliente->bairro=$req->input('bairro');
+                $cliente->rua=$req->input('rua');
+                $cliente->numero=$req->input('numero');
+                $cliente->save();
+            }else{
+                $array['status']=1;
+                $array['error']='Alguns dados não enviados';
+            }
+        }else{
+            $array['status']=1;
+            $array['error']='Metodo de requisição invalido';
+        }
+        $this->getSaida($array);
+    }
+    public function excluirCliente($id,Request $req){
+        if($req->isMethod('delete')){
+            Clientes::where('id',$id)->delete();
+        }
+    }
+    public function salvarFabricante($id,Request $req){
+        $array=array(
+            'status'=>0,
+            'error'=>''
+        );
+
+        if($req->isMethod('post')){
+            if($req->filled(['nome','email','cnpj','uf','municipio','tel','bairro','rua','numero'])){
+                $fabricantes=Fabricantes::find($id);
+                $fabricantes->nome=$req->input('nome');
+                $fabricantes->email=$req->input('email');
+                $fabricantes->cnpj=$req->input('cnpj');
+                $fabricantes->estado=$req->input('uf');
+                $fabricantes->municipio=$req->input('municipio');
+                $fabricantes->telefone=$req->input('tel');
+                $fabricantes->bairro=$req->input('bairro');
+                $fabricantes->rua=$req->input('rua');
+                $fabricantes->numero=$req->input('numero');
+                $fabricantes->save();
+            }else{
+                $array['status']=1;
+                $array['error']='Algum campo não preenchido';
+            }
+        }else{
+            $array['status']=1;
+            $array['error']="Metodo de requisição invalido";
+        }
+        $this->getSaida($array);
+    }
+    public function excluirFabricante($id,Request $req){
+        if($req->isMethod('delete')){
+            Fabricantes::where('id',$id)->delete();
+        }
     }
 }

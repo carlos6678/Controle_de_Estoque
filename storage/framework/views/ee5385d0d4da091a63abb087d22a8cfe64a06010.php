@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 menu_lateral" style="background-color: #363636;">
@@ -54,7 +52,7 @@
             <div class="total_vendas mb-1">
                 <div class="circle">
                     <h2>Valor total</h2>
-                    <h3>R$ {{$total_vendas}}</h3>
+                    <h3>R$ <?php echo e($total_vendas); ?></h3>
                 </div>
             </div>
             <div class="row justify-content-between">
@@ -99,27 +97,29 @@
                     <th>Quantidade</th>
                     <th>Data</th>
                 <tbody>
-                    @foreach($vendas as $venda)
+                    <?php $__currentLoopData = $vendas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venda): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr hidden>
-                            @foreach($venda as $key=>$venda1)
-                                @if($key==3)
-                                    <td>R$ {{$venda1}}</td>
-                                @else
-                                    <td>{{$venda1}}</td>
-                                @endif
-                            @endforeach
+                            <?php $__currentLoopData = $venda; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$venda1): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($key==3): ?>
+                                    <td>R$ <?php echo e($venda1); ?></td>
+                                <?php else: ?>
+                                    <td><?php echo e($venda1); ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tr>
-                     @endforeach
+                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
 
-            @if(!empty($vendas))
+            <?php if(!empty($vendas)): ?>
                 <div class="buttons_v">
                     <button class="btn btn-outline-primary btn-lg" id="ver_mais">Ver mais</button>
                     <button class="btn btn-outline-primary btn-lg" id="ver_menos">Ver menos</button>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\Estoque\resources\views/vendas.blade.php ENDPATH**/ ?>

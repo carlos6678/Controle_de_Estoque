@@ -54,8 +54,19 @@ class HomeController extends Controller
  
             $Produtos=Produtos::find($value['produtos_id']);
             $Clientes=Clientes::find($value['clientes_id']);
-
-            $venda=array($Clientes->cep,$Clientes->razao_social,$Produtos->nome,$value['valor_venda'],$value['qtproduto'],$value['data_venda']);
+            
+            if($Produtos && $Clientes){
+                $venda=array($Clientes->cep,$Clientes->razao_social,$Produtos->nome,$value['valor_venda'],$value['qtproduto'],$value['data_venda']);
+            }
+            elseif(!$Produtos && !$Clientes){
+                $venda=array('Excluido','Excluido','Excluido',$value['valor_venda'],$value['qtproduto'],$value['data_venda']);
+            }
+            elseif($Produtos && !$Clientes){
+                $venda=array('Excluido','Excluido',$Produtos->nome,$value['valor_venda'],$value['qtproduto'],$value['data_venda']);
+            }
+            elseif(!$Produtos && $Clientes){
+                $venda=array($Clientes->cep,$Clientes->razao_social,'Excluido',$value['valor_venda'],$value['qtproduto'],$value['data_venda']);
+            }
 
             $dados['vendas'][$key]=$venda;
         }
@@ -69,17 +80,28 @@ class HomeController extends Controller
 
         foreach($compras as $key=>$compra){
             $Produto=Produtos::find($compra['produto_id']);
-            $compras[$key]->produto_id=$Produto->nome;
+            if($Produto){
+                $compras[$key]->produto_id=$Produto->nome;
+            }else{
+                $compras[$key]->produto_id='Excluido';
+            }
         }
         $dados['compras']=$compras;
         return view('compras',$dados);
     }
     public function clientes(){
         $dados=array(
-            'clientes'
+            'clientes'=>array()
         );
         $dados['clientes']=Clientes::paginate(10);
         return view('clientes',$dados);
+    }
+    public function fabricantes(){
+        $dados=array(
+            'fabricantes'=>array()
+        );
+        $dados['fabricantes']=Fabricantes::paginate(15);
+        return view('fabricantes',$dados);
     }
     public function adicionarClientes(Request $req){
 
@@ -115,16 +137,26 @@ class HomeController extends Controller
             $user->password=Hash::make($req->input('senha'));
             $user->save();
         }
+
         $dados['users']=User::paginate(5);
         return view('addUsuario',$dados);
-    }
-    public function relatorio_vendas(){
-        //pendente
-    }
-    public function relatorio_mensal(){
-        //pendente
-    }
-    public function relatorio_diario(){
-        //pendente
+    } 
+    public function adicionarFabricante(Request $req){
+        if($req->isMethod('post')){
+            if($req->filled(['nome','email','cnpj','uf','municipio','tel','bairro','rua','numero'])){
+                $fabricantes=new Fabricantes;
+                $fabricantes->nome=$req->input('nome');
+                $fabricantes->email=$req->input('email');
+                $fabricantes->cnpj=$req->input('cnpj');
+                $fabricantes->estado=$req->input('uf');
+                $fabricantes->municipio=$req->input('municipio');
+                $fabricantes->telefone=$req->input('tel');
+                $fabricantes->bairro=$req->input('bairro');
+                $fabricantes->rua=$req->input('rua');
+                $fabricantes->numero=$req->numero;
+                $fabricantes->save();
+            }
+        }
+        return view('addFabricante');
     }
 }
