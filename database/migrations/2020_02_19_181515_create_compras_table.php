@@ -19,7 +19,7 @@ class CreateComprasTable extends Migration
             $table->integer('produto_id');
             $table->float('quantidade');
             $table->float('valor');
-            $table->dateTime('data_compra');
+            $table->date('data_compra');
         });
     }
 
