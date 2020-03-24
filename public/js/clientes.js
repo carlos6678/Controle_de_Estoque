@@ -14,15 +14,6 @@ function editarCliente(obj){
                 clientes[count].setAttribute('value',value)
                 count++
             }
-            // clientes[0].setAttribute('value',json.cep)
-            // clientes[1].setAttribute('value',json.razao_social)
-            // clientes[2].setAttribute('value',json.cnpj)
-            // clientes[3].setAttribute('value',json.estado)
-            // clientes[4].setAttribute('value',json.municipio)
-            // clientes[5].setAttribute('value',json.telefone)
-            // clientes[6].setAttribute('value',json.bairro)
-            // clientes[7].setAttribute('value',json.rua)
-            // clientes[8].setAttribute('value',json.numero)
         }
     })
     $('#editarCliente').modal('show')

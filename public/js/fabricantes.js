@@ -8,16 +8,12 @@ function editarFabricante(obj){
         type:'get',
         dataType:'json',
         success:function(json){
-            let clientes=document.querySelectorAll('#salvarFabricante > div > input')
-            clientes[0].setAttribute('value',json.nome)
-            clientes[1].setAttribute('value',json.email)
-            clientes[2].setAttribute('value',json.cnpj)
-            clientes[3].setAttribute('value',json.estado)
-            clientes[4].setAttribute('value',json.municipio)
-            clientes[5].setAttribute('value',json.telefone)
-            clientes[6].setAttribute('value',json.bairro)
-            clientes[7].setAttribute('value',json.rua)
-            clientes[8].setAttribute('value',json.numero)
+            let fabricantes=document.querySelectorAll('#salvarFabricante > div > input')
+            let count=0
+            for(let [key,value] of Object.entries(json)){
+                fabricantes[count].setAttribute('value',value)
+                count++
+            }
         }
     })
     $('#editarFabricante').modal('show')

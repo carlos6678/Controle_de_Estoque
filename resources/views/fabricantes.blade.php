@@ -114,13 +114,13 @@
 
                                 <label class="col-form-label">E-mail</label>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <input type="text" class="form-control" name='email'>
                                 </div>
 
                                 <label class="col-form-label">CNPJ</label>
 
-                                <div class="col-6 mb-3">
+                                <div class="col-5 mb-3">
                                     <input type="text" class="form-control" name="cnpj">
                                 </div>
 
@@ -138,7 +138,7 @@
 
                                 <label class="col-form-label">Telefone</label>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <input type="text" class="form-control" name="tel">
                                 </div>
 

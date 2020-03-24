@@ -112,12 +112,12 @@
                                 </div>
                                 
                                 <label class="col-form-label">Razao Social:</label>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <input type="text" class="form-control" placeholder="Razao Social" name="razao">
                                 </div>
 
                                 <label class="col-form-label">CNPJ/CPF:</label>
-                                <div class="col-6 mb-2">
+                                <div class="col-5 mb-2">
                                     <input type="text" class="form-control" placeholder="CNPJ/CPF" name="cnpj">
                                 </div>
 
@@ -127,7 +127,7 @@
                                 </div>
                                 
                                 <label class="col-form-label">Municipio:</label>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <input type="text" class="form-control" placeholder="Municipio" name="municipio">
                                 </div>
 
